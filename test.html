@@ -1,27 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>iOS 复制测试 - Vue版本</title>
-  <!-- 引入 Vue CDN -->
+  <title>模拟 async/await + 复制功能</title>
   <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 40px;
-    }
-    button {
-      font-size: 16px;
-      padding: 10px 20px;
-      cursor: pointer;
-    }
-  </style>
 </head>
 <body>
 
 <div id="app">
-  <h2>iOS Safari 复制测试（Vue 版）</h2>
-  <button @click="copyText">点击复制</button>
+  <h2>模拟获取文本并复制</h2>
+  <button @click="simulateFetchAndCopy">获取并复制</button>
 </div>
 
 <script>
@@ -29,28 +17,35 @@ const { createApp } = Vue;
 
 createApp({
   methods: {
-    copyText() {
-      const text = "这是要复制的文本";
+    async simulateFetchAndCopy() {
+      const text = await this.fakeFetchText();
+      this.copyText(text);
+    },
 
+    // 模拟异步获取数据（如从接口获取文本）
+    async fakeFetchText() {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve("这是模拟 async/await 获取的文本");
+        }, 1000); // 模拟网络延迟 1 秒
+      });
+    },
+
+    // 复制到剪贴板
+    copyText(text) {
       const textarea = document.createElement("textarea");
       textarea.value = text;
-
       textarea.setAttribute("readonly", "");
       textarea.style.position = "absolute";
-      textarea.style.top = "0";
-      textarea.style.left = "0";
-      textarea.style.opacity = "0";
+      textarea.style.left = "-9999px";
 
       document.body.appendChild(textarea);
-
-      textarea.focus();
       textarea.select();
       textarea.setSelectionRange(0, textarea.value.length);
 
       try {
-        const successful = document.execCommand("copy");
-        console.log("复制状态：", successful ? "成功 ✅" : "失败 ❌");
-        alert(successful ? "复制成功 ✅" : "复制失败 ❌");
+        const success = document.execCommand("copy");
+        alert(success ? "复制成功 ✅" : "复制失败 ❌");
       } catch (err) {
         console.error("复制异常：", err);
         alert("复制异常 ❌");
