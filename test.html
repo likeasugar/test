@@ -34,7 +34,7 @@ createApp({
     copyText(text) {
      const textarea=document.createElement("textarea");
       textarea.value = text;
-      document.body.appendchild(textarea);
+      document.body.appendChild(textarea);
       textarea.select();
       document.execCommand("copy");
       document.body.removechild(textarea);
