@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>iOS 兼容的 async/a44444wait + 复制</title>
+  <title>iOS 兼容的 async/a11444wait + 复制</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
 </head>
@@ -34,7 +34,8 @@ createApp({
     copyText(text) {
      const textarea=document.createElement("textarea");
       textarea.value = text;
-      document.body.appendchild(textarea),textarea.select();
+      document.body.appendchild(textarea);
+      textarea.select();
       document.execCommand("copy");
       document.body.removechild(textarea);
       alert("分享链接已复制到剪贴板");
