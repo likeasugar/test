@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>iOS 复制测试</title>
+</head>
+<body>
+
+<button id="copyBtn">复制文本</button>
+
+<script>
+document.getElementById("copyBtn").addEventListener("click", function () {
+  const text = "这是要复制的文本";
+
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+
+  // iOS 关键设置：必须显示可聚焦、可选中
+  textarea.setAttribute("readonly", "");
+  textarea.style.position = "absolute";
+  textarea.style.top = "0";
+  textarea.style.left = "0";
+  textarea.style.opacity = "0"; // 不可用 display: none
+  document.body.appendChild(textarea);
+
+  // 必须使用 setSelectionRange 兼容 iOS
+  textarea.focus();
+  textarea.select();
+  textarea.setSelectionRange(0, textarea.value.length);
+
+  try {
+    const successful = document.execCommand("copy");
+    console.log("复制状态：", successful ? "成功 ✅" : "失败 ❌");
+    alert(successful ? "复制成功 ✅" : "复制失败 ❌");
+  } catch (err) {
+    console.error("复制异常：", err);
+    alert("复制异常 ❌");
+  }
+
+  document.body.removeChild(textarea);
+});
+</script>
+
+</body>
+</html>
