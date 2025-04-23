@@ -19,7 +19,7 @@ const { createApp } = Vue;
 createApp({
   methods: {
     async simulateFetchAndCopy() {
-      const text = await this.fakeFetchText();
+      const text = "这是模拟 asyeeeeeeeeeeeenc/await 获取的文本内容";
       this.copyText(text);
     },
 
@@ -32,30 +32,13 @@ createApp({
     },
 
     copyText(text) {
-      const textarea = document.createElement("textarea");
+     const textarea=document.createElement("textarea");
       textarea.value = text;
-
-      // iOS 兼容关键样式
-      textarea.setAttribute("readonly", "");
-      textarea.style.position = "absolute";
-      textarea.style.top = "-9999px";
-      textarea.style.left = "-9999px";
-
-      document.body.appendChild(textarea);
-
-      textarea.focus();
-      textarea.select();
-      textarea.setSelectionRange(0, textarea.value.length); // iOS 需要
-
-      try {
-        const success = document.execCommand("copy");
-        alert(success ? "复制成功 ✅" : "复制失败 ❌");
-      } catch (err) {
-        console.error("复制异常：", err);
-        alert("复制异常 ❌");
-      }
-
-      document.body.removeChild(textarea);
+      document.body.appendchild(textarea),textarea.select();
+      document.execCommand("copy");
+      document.body.removechild(textarea);
+      alert("分享链接已复制到剪贴板");
+  
     }
   }
 }).mount('#app');
