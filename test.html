@@ -2,13 +2,14 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>模拟 async/await + 复制功能</title>
+  <title>iOS 兼容的 async/await + 复制</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
 </head>
 <body>
 
 <div id="app">
-  <h2>模拟获取文本并复制</h2>
+  <h2>iOS 兼容复制示例</h2>
   <button @click="simulateFetchAndCopy">获取并复制</button>
 </div>
 
@@ -22,26 +23,29 @@ createApp({
       this.copyText(text);
     },
 
-    // 模拟异步获取数据（如从接口获取文本）
     async fakeFetchText() {
       return new Promise(resolve => {
         setTimeout(() => {
-          resolve("这是模拟 async/await 获取的文本");
-        }, 1000); // 模拟网络延迟 1 秒
+          resolve("这是模拟 async/await 获取的文本内容");
+        }, 1000);
       });
     },
 
-    // 复制到剪贴板
     copyText(text) {
       const textarea = document.createElement("textarea");
       textarea.value = text;
+
+      // iOS 兼容关键样式
       textarea.setAttribute("readonly", "");
       textarea.style.position = "absolute";
+      textarea.style.top = "-9999px";
       textarea.style.left = "-9999px";
 
       document.body.appendChild(textarea);
+
+      textarea.focus();
       textarea.select();
-      textarea.setSelectionRange(0, textarea.value.length);
+      textarea.setSelectionRange(0, textarea.value.length); // iOS 需要
 
       try {
         const success = document.execCommand("copy");
